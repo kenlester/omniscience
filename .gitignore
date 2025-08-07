@@ -1,0 +1,17 @@
+# GCP Credentials
+gcp_creds.json
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
+.env
+venv/
+env/
+
+# IDE files
+.idea/
+.vscode/

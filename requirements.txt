@@ -1,2 +1,3 @@
 Flask
 SQLAlchemy
+google-cloud-pubsub
