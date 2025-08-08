@@ -1,3 +1,5 @@
 Flask
 SQLAlchemy
 google-cloud-pubsub
+beautifulsoup4
+lxml
