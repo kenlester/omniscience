@@ -50,6 +50,44 @@ class PubSubQueue:
     def __repr__(self):
         return f"<PubSubQueue(topic_path='{self.topic_path}')>"
 
+def consume_one_message(subscription_id):
+    """
+    Pulls a single message from a Pub/Sub subscription.
+
+    Args:
+        subscription_id (str): The ID of the subscription to pull from.
+
+    Returns:
+        str: The message data as a string, or None if no message is available.
+    """
+    subscriber = pubsub_v1.SubscriberClient()
+    project_id = get_project_id()
+    subscription_path = subscriber.subscription_path(project_id, subscription_id)
+
+    print(f"Pulling one message from {subscription_path}...")
+
+    # The pull method returns a PullResponse object.
+    response = subscriber.pull(
+        request={"subscription": subscription_path, "max_messages": 1}
+    )
+
+    if not response.received_messages:
+        print("No messages received.")
+        return None
+
+    received_message = response.received_messages[0]
+    message_data = received_message.message.data.decode("utf-8")
+
+    print(f"Received message: {message_data}")
+
+    # Acknowledge the message so it's not delivered again.
+    subscriber.acknowledge(
+        request={"subscription": subscription_path, "ack_ids": [received_message.ack_id]}
+    )
+    print("Message acknowledged.")
+
+    return message_data
+
 # --- Instantiate the queues required by the OMNISCIENCE program ---
 
 # Queue for URLs to be crawled by the Crawler Swarm

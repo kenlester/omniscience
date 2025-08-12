@@ -34,7 +34,7 @@ def extract_all_links(base_url, html_content):
 
         links.add(absolute_link)
 
-    return links
+    return list(links)
 
 
 # --- Heuristics for Product Page Identification ---
